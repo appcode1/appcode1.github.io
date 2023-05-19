@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index</title>
+	<style>
+	   .d-block {
+	     display: block;
+	   }
+	   .d-none {
+	     display: none;
+	   }
+	   .mx-auto {
+	    margin-left:auto;
+		margin-right:auto;
+	   }
+	   .text-label {
+		text-align: right;
+		padding-top:0.5rem;
+		padding-bottom:0.5rem;
+		padding-right:0.25rem;
+		padding-left:0.25rem;
+	   }
+	   .text-left {
+	     text-align: left;
+	   }
+	   .text-center {
+	     text-align: center;
+		}
+		.text-content {
+		  color: #0d6efd;
+		  padding-left:0.25rem;
+		  padding-right:0.25rem;
+		}
+		.py-2 {
+		  padding-top:1rem;
+		  padding-bottom:1rem;
+		}
+		td {
+		  border: 1px solid #ccd3f1;
+		}
+	</style>
+  </head>
+  <body>
+	<div style="max-width: 22rem;min-width:16rem;margin-left:auto;margin-right:auto;margin-top:3rem;">
+		<h1 class="text-center">Hello World!</h1>
+		<h2 class="text-center" id='divdt'></h2>
+		<div id="divip" class="d-none" style="margin-top:5rem;font-size:1.5rem;">
+			<table class="mx-auto" style="border:2px solid #f50660;border-radius:0.5rem;padding:1rem;">
+				<tr><td class="text-label">IP</td><td class="text-content">ip</td></tr>
+				<tr><td class="text-label">ISP</td><td class="text-content">isp</td></tr>
+				<tr><td class="text-label">Region</td><td class="text-content">region</td></tr>
+				<tr><td class="text-label">Country</td><td class="text-content">country</td></tr>
+			</table>
+		</div>
+	</div>
+  </body>
+<script type="application/javascript">
+    var divdt = document.getElementById('divdt');
+	function startTime() {
+		divdt.innerHTML = (new Date()).toLocaleString();
+		setTimeout(startTime, 1000);
+	}
+	
+	startTime();
+	fetch('http://ip-api.com/json/',{
+      method: 'GET',
+      headers: {"Content-Type": "application/json"}})
+	.then(res => res.json().then(data => {
+		if(data && data.status == 'success'){
+		   var divip = document.getElementById('divip');
+		   divip.innerHTML = divip.innerHTML.replace('ip',data.query).replace('isp',data.isp).replace('region',data.regionName||data.region).replace('country',data.country);
+		   divip.classList.remove('d-none');
+		}
+	}))
+	.catch(err=>console.log(err));
+</script>
+
+</html>
