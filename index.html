@@ -50,46 +50,4 @@
 	startTime();
 </script>
 <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
-<script type="application/javascript">
-	var _registerServiceWorker = function(){
-        if (!navigator.serviceWorker) return;
-        
-        navigator.serviceWorker.register('sw.js').then(function(reg) {
-           if(!navigator.serviceWorker.controller) return;
-
-           if (reg.waiting) {
-             _updateReady(reg.waiting);
-             return;
-           }
-
-           if (reg.installing) {
-             _trackInstalling(reg.installing);
-             return;
-           }
-
-           reg.addEventListener('updatefound', function() {
-             _trackInstalling(reg.installing);
-           });
-         });
-       
-         var refreshing;
-         navigator.serviceWorker.addEventListener('controllerchange', function(){
-             if(refreshing) return;
-             window.location.reload();
-             refreshing = true;
-         });
-   };
-   var _trackInstalling = function(worker) {
-       worker.addEventListener('statechange', function(){
-           if(worker.state == 'installed') {
-               _updateReady(worker);
-           }
-       });
-   };
-   var _updateReady = function(worker){
-       //new version available
-       worker.postMessage({action: 'skipWaiting'});
-   };
-   //_registerServiceWorker();
-</script>
 </html>
