@@ -106,14 +106,4 @@
 <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP0"></script>
 <script type="application/javascript" src="https://myip.free.nf/api/getip1.php?callback=getIP1"></script>
 <script type="application/javascript" src="https://myip.free.nf/api/getip2.php?callback=getIP2"></script>
-<script>
-fetch('https://myip.free.nf/api/getip1.php')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-</script>
 </html>
