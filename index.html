@@ -75,35 +75,7 @@
 		divip0.innerHTML = json.ip;
 		divip0.classList.remove('d-none');
 	}
-	function getHtml(ip, isp, city, region, country) {
-		var labels=['IP','ISP','City','Region','Country'];
-		var values=[ip,isp,city,region,country];
-		var html = '<table class="w-100">';
-		for(var i=0;i<labels.length;i++){
-			html += `<tr><td class="text-label">${labels[i]}</td><td class="text-content ${i==1?"ft-1":""}">${values[i]}</td></tr>`;
-		}
-		html += '</table>';
-		return html;
-	}
-	function getIP1(data) {
-		console.log('getIP1',data);
-		var divip1 = document.getElementById('divip1');
-		var isp = '';
-		if(data.isp) isp+=`<span>${data.isp}</span>`;
-		if(data.org) isp+=`<br><span class="text-black">${data.org}</span>`;
-		if(data.as) isp+=`<br><span class="text-success">${data.as}</span>`;
-		divip1.innerHTML = getHtml(data.query, isp, data.city, data.regionName||data.region, data.country);
-		divip1.classList.remove('d-none');
-	}
-	function getIP2(data) {
-		console.log('getIP2',data);
-		var divip2 = document.getElementById('divip2');
-		divip2.innerHTML = getHtml(data.ip, data.org, data.city, data.region, data.country);
-		divip2.classList.remove('d-none');
-	}
 	startTime();
 </script>
 <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP0"></script>
-<script type="application/javascript" src="https://myip.free.nf/api/getip1.php?callback=getIP1"></script>
-<script type="application/javascript" src="https://myip.free.nf/api/getip2.php?callback=getIP2"></script>
 </html>
