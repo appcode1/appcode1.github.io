@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index</title>
+	<style>
+	   .d-block {
+	     display: block;
+	   }
+	   .d-none {
+	     display: none;
+	   }
+	   .mx-auto {
+	    margin-left:auto;
+		margin-right:auto;
+	   }
+	   .text-label {
+		padding-top:0.5rem;
+		padding-bottom:0.5rem;
+		padding-right:0.25rem;
+		padding-left:0.25rem;
+	   }
+	  .text-content {
+		  color: #0d6efd;
+		  padding-left:0.25rem;
+		  padding-right:0.25rem;
+		}
+	   .text-left {
+	     text-align: left;
+	   }
+	   .text-center {
+	     text-align: center;
+		}
+		.ft-1{
+			font-size: 1rem;
+		}
+		td {
+		  border: 1px solid #ccd3f1;
+		}
+		.text-black {
+		  color: #212529;
+		}
+		.text-success {
+		  color: #198754;
+		}
+		.ip-box {
+			margin-top:1rem;margin-bottom:1rem;font-size:1.5rem;
+			border:2px solid #f50660;border-radius:0.25rem;padding:0.25rem;
+		}
+		.w-100 {
+			width: 100%;
+		}
+		.container{
+			max-width: 25rem;min-width:16rem;margin-left:auto;margin-right:auto;
+		}
+	</style>
+  </head>
+  <body>
+	<div class="container">
+		<h2  id="divdt" class="text-center"></h2>
+		<div id="divip0" class="d-none text-center ip-box"></div>
+	<div style="margin-top:10rem; font-size:1.2rem"> 奇门遁甲软件下载: <a href="qimen-1.0.0.apk">qimen-1.0.0.apk</a>
+	</div>
+	</div>
+  </body>
+<script type="application/javascript">
+    var divdt = document.getElementById('divdt');
+	function startTime() {
+		divdt.innerHTML = (new Date()).toLocaleString();
+		setTimeout(startTime, 1000);
+	}
+	function getIP0(json) {
+		var divip0 = document.getElementById('divip0');
+		divip0.innerHTML = json.ip;
+		divip0.classList.remove('d-none');
+	}
+	startTime();
+</script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP0"></script>
+</html>
