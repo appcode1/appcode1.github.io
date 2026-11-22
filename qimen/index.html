@@ -1,81 +1,509 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Index</title>
-	<style>
-	   .d-block {
-	     display: block;
-	   }
-	   .d-none {
-	     display: none;
-	   }
-	   .mx-auto {
-	    margin-left:auto;
-		margin-right:auto;
-	   }
-	   .text-label {
-		padding-top:0.5rem;
-		padding-bottom:0.5rem;
-		padding-right:0.25rem;
-		padding-left:0.25rem;
-	   }
-	  .text-content {
-		  color: #0d6efd;
-		  padding-left:0.25rem;
-		  padding-right:0.25rem;
-		}
-	   .text-left {
-	     text-align: left;
-	   }
-	   .text-center {
-	     text-align: center;
-		}
-		.ft-1{
-			font-size: 1rem;
-		}
-		td {
-		  border: 1px solid #ccd3f1;
-		}
-		.text-black {
-		  color: #212529;
-		}
-		.text-success {
-		  color: #198754;
-		}
-		.ip-box {
-			margin-top:1rem;margin-bottom:1rem;font-size:1.5rem;
-			border:2px solid #f50660;border-radius:0.25rem;padding:0.25rem;
-		}
-		.w-100 {
-			width: 100%;
-		}
-		.container{
-			max-width: 25rem;min-width:16rem;margin-left:auto;margin-right:auto;
-		}
-	</style>
-  </head>
-  <body>
-	<div class="container">
-		<h2  id="divdt" class="text-center"></h2>
-		<div id="divip0" class="d-none text-center ip-box"></div>
-	<div style="margin-top:10rem; font-size:1.2rem"> 奇门遁甲软件下载: <a href="qimen-1.0.0.apk">qimen-1.0.0.apk</a>
-	</div>
-	</div>
-  </body>
-<script type="application/javascript">
-    var divdt = document.getElementById('divdt');
-	function startTime() {
-		divdt.innerHTML = (new Date()).toLocaleString();
-		setTimeout(startTime, 1000);
-	}
-	function getIP0(json) {
-		var divip0 = document.getElementById('divip0');
-		divip0.innerHTML = json.ip;
-		divip0.classList.remove('d-none');
-	}
-	startTime();
-</script>
-<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP0"></script>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f1e8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2320262e'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23fffdf9' font-family='sans-serif'%3E%E5%A5%87%3C/text%3E%3C/svg%3E">
+<title>奇门干支历 · 安卓 App 下载与微信小程序</title>
+<meta name="description" content="奇门干支历（奇门遁甲排盘）使用说明：下载安卓原生版或 WebView 版 App，也可以用微信扫码打开小程序。">
+<style>
+  :root{
+    --bg:#f5f1e8;
+    --surface:#fffdf9;
+    --surface-2:#f8f4ea;
+    --ink:#20262e;
+    --muted:#626d78;
+    --line:#e2dbcd;
+    --line-strong:#cfc5b3;
+    --teal:#0f6f78;
+    --teal-soft:#e3f2f2;
+    --amber:#9a5b12;
+    --amber-soft:#fbefdc;
+    --green:#178a4c;
+    --green-soft:#e7f6ec;
+    --shadow:0 1px 2px rgba(31,38,46,.04),0 14px 36px rgba(31,38,46,.06);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:
+      radial-gradient(900px 460px at 8% -8%, #e6efe9 0%, transparent 62%),
+      radial-gradient(820px 440px at 100% 0%, #f4e8d7 0%, transparent 58%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC","Hiragino Sans GB",system-ui,-apple-system,"Segoe UI",sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;height:auto}
+  a{color:var(--teal);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  .icon{width:20px;height:20px;flex:none}
+  .skip-link{
+    position:absolute;left:16px;top:-60px;z-index:20;
+    background:var(--ink);color:#fff;padding:10px 16px;border-radius:0 0 10px 10px;
+  }
+  .skip-link:focus{top:0}
+
+  /* ---------- header ---------- */
+  .site-header{border-bottom:1px solid var(--line)}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:18px;padding-bottom:18px}
+  .brand{display:inline-flex;align-items:center;gap:11px;color:var(--ink);font-weight:800;letter-spacing:.02em}
+  .brand:hover{text-decoration:none}
+  .brand-mark{
+    width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+    background:var(--ink);color:#fff;font-size:18px;flex:none;
+  }
+  .brand-name{display:flex;flex-direction:column;line-height:1.25}
+  .brand-name small{font-weight:500;font-size:11.5px;color:var(--muted);letter-spacing:.14em;margin-top:2px}
+  .site-nav{display:flex;gap:22px;font-size:14px;color:var(--muted)}
+  .site-nav a{color:var(--muted);font-weight:600}
+  .site-nav a:hover{color:var(--ink);text-decoration:none}
+
+  /* ---------- hero ---------- */
+  .hero{padding:62px 0 54px;max-width:860px}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:800;letter-spacing:.12em;
+    color:var(--teal);background:var(--teal-soft);
+    border:1px solid #c5e2e2;border-radius:999px;padding:6px 13px;margin-bottom:20px;
+  }
+  .kicker .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+  h1{
+    margin:0 0 18px;
+    font-size:clamp(34px,6.2vw,58px);
+    line-height:1.14;
+    letter-spacing:-.03em;
+    font-weight:800;
+  }
+  h1 .accent{color:var(--teal)}
+  .lede{margin:0;max-width:700px;font-size:clamp(15.5px,1.8vw,18px);color:var(--muted)}
+  .lede strong{color:var(--ink);font-weight:700}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .hero-meta{margin:18px 0 0;font-size:13px;color:var(--muted)}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    min-height:48px;padding:12px 22px;border-radius:999px;
+    font:inherit;font-size:15px;font-weight:700;line-height:1.2;
+    border:1px solid transparent;cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  }
+  .btn:hover{text-decoration:none;transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn:focus-visible{outline:3px solid #9ccfd2;outline-offset:3px}
+  .btn-primary{background:var(--ink);color:#fff;box-shadow:0 8px 20px rgba(32,38,46,.16)}
+  .btn-primary:hover{background:#2c343e}
+  .btn-green{background:var(--green);color:#fff;box-shadow:0 8px 20px rgba(23,138,76,.18)}
+  .btn-green:hover{background:#127340}
+  .btn-outline{background:transparent;border-color:var(--line-strong);color:var(--ink)}
+  .btn-outline:hover{background:var(--surface)}
+
+  /* ---------- sections ---------- */
+  .section{padding:28px 0 60px}
+  .section-band{
+    padding:52px 0 60px;
+    background:linear-gradient(180deg,rgba(231,246,236,.55),rgba(245,241,232,0) 85%);
+    border-top:1px solid rgba(197,226,197,.6);
+  }
+  .section-head{margin-bottom:26px;max-width:780px}
+  .eyebrow{
+    display:flex;align-items:center;gap:12px;
+    font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--muted);
+    margin-bottom:10px;
+  }
+  .eyebrow .num{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--teal)}
+  h2{margin:0 0 10px;font-size:clamp(25px,3.4vw,36px);line-height:1.2;letter-spacing:-.025em}
+  .section-sub{margin:0;color:var(--muted);font-size:15px}
+  .section-sub strong{color:var(--ink)}
+
+  /* ---------- apk cards ---------- */
+  .apk-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+  .apk-card{
+    --accent:var(--teal);--accent-soft:var(--teal-soft);
+    display:flex;flex-direction:column;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:26px;position:relative;overflow:hidden;
+  }
+  .apk-card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--accent)}
+  .apk-card.classic{--accent:var(--amber);--accent-soft:var(--amber-soft)}
+  .apk-top{display:flex;align-items:center;gap:9px;margin-bottom:14px;min-height:28px}
+  .tag{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:11.5px;font-weight:800;letter-spacing:.06em;
+    padding:4px 10px;border-radius:999px;
+    color:var(--accent);background:var(--accent-soft);
+    border:1px solid color-mix(in srgb,var(--accent) 22%,white);
+  }
+  .ver{margin-left:auto;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12.5px;color:var(--muted)}
+  .apk-card h3{margin:0 0 6px;font-size:23px;letter-spacing:-.02em;line-height:1.25}
+  .apk-desc{margin:0 0 18px;font-size:14.5px;color:var(--muted);min-height:3.4em}
+  .feature-list{list-style:none;margin:0 0 20px;padding:0;font-size:14px}
+  .feature-list li{position:relative;padding-left:24px;margin-bottom:8px;color:#39444f}
+  .feature-list li::before{
+    content:"✓";position:absolute;left:0;top:0;
+    color:var(--accent);font-weight:900;font-size:14px;
+  }
+  .specs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+  .specs span{
+    font-size:12.5px;color:var(--muted);
+    background:var(--surface-2);border:1px solid var(--line);
+    padding:4px 10px;border-radius:999px;
+  }
+  .btn-download{
+    width:100%;margin-top:auto;
+    background:var(--accent);color:#fff;
+    box-shadow:0 8px 18px color-mix(in srgb,var(--accent) 22%,transparent);
+  }
+  .btn-download:hover{filter:brightness(.94)}
+  .file-name{margin:10px 0 0;text-align:center;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11.5px;color:var(--muted);overflow-wrap:anywhere}
+
+  /* ---------- install guide ---------- */
+  .guide{
+    margin-top:20px;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow);
+  }
+  .guide-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .guide-head h3{margin:0;font-size:18px;letter-spacing:-.01em}
+  .guide-head .badge{
+    width:32px;height:32px;border-radius:10px;display:grid;place-items:center;
+    background:var(--teal-soft);color:var(--teal);flex:none;
+  }
+  .steps{list-style:none;counter-reset:step;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .steps li{counter-increment:step;position:relative;padding-left:40px;font-size:14px;color:#39444f}
+  .steps li::before{
+    content:counter(step);position:absolute;left:0;top:1px;
+    width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+    background:var(--ink);color:#fff;font-size:13px;font-weight:800;
+  }
+  .steps b{display:block;color:var(--ink);font-size:14.5px;margin-bottom:2px}
+  .steps span{display:block;color:var(--muted);line-height:1.6}
+  .note{
+    margin:20px 0 0;padding-top:16px;border-top:1px dashed var(--line);
+    font-size:13px;color:var(--muted);
+  }
+  .note strong{color:var(--ink)}
+
+  /* ---------- wechat ---------- */
+  .wechat-grid{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:28px;align-items:start}
+  .qr-card{
+    background:var(--surface);border:1px solid #cfe6d6;border-radius:22px;
+    padding:26px 22px 22px;text-align:center;box-shadow:var(--shadow);
+  }
+  .qr-card a{display:inline-block;border-radius:14px;overflow:hidden;line-height:0;border:1px solid var(--line);background:#fff}
+  .qr-card img{width:240px;max-width:100%;display:block}
+  .qr-title{margin:16px 0 2px;font-size:18px;font-weight:800;color:var(--ink)}
+  .qr-hint{margin:0;font-size:12.5px;color:var(--muted)}
+  .wechat-copy h3{margin:2px 0 8px;font-size:22px;letter-spacing:-.02em}
+  .wechat-copy > p{margin:0 0 18px;color:var(--muted);font-size:14.5px}
+  .mini-steps{list-style:none;counter-reset:mini;margin:0 0 20px;padding:0}
+  .mini-steps li{counter-increment:mini;position:relative;padding-left:38px;margin-bottom:13px;font-size:14.5px;color:#39444f}
+  .mini-steps li::before{
+    content:counter(mini);position:absolute;left:0;top:1px;
+    width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    background:var(--green-soft);color:var(--green);font-size:12.5px;font-weight:800;
+    border:1px solid #c4e7cf;
+  }
+  .mini-steps b{color:var(--ink)}
+  .unlock{
+    background:#f4fbf6;border:1px dashed #a9d8b8;border-radius:16px;
+    padding:20px 22px;color:#2c4a36;
+  }
+  .unlock-title{display:flex;align-items:center;gap:9px;font-weight:800;color:#146c3c;font-size:16px;margin-bottom:8px}
+  .unlock p{margin:0 0 12px;font-size:14px;color:#3d5a47}
+  .unlock ol{margin:0;padding-left:20px;font-size:14px;color:#3d5a47}
+  .unlock li{margin-bottom:5px}
+  .unlock li:last-child{margin-bottom:0}
+  .unlock strong{color:#146c3c}
+  .unlock-foot{margin:12px 0 0;font-size:12.5px;color:#5c7465}
+
+  /* ---------- compare cta ---------- */
+  .compare{
+    margin:20px 0 0;padding:34px 36px;border-radius:24px;
+    background:radial-gradient(600px 200px at 100% 0%, #33404c 0%, transparent 60%), var(--ink);
+    color:#f5f1e8;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;
+    box-shadow:0 18px 44px rgba(32,38,46,.18);
+  }
+  .compare .eyebrow{color:#c8d3d9;margin-bottom:8px;letter-spacing:.12em}
+  .compare h2{margin:0 0 6px;font-size:clamp(22px,2.8vw,30px);color:#fff}
+  .compare p{margin:0;color:#c3ccd3;font-size:14px;max-width:600px}
+  .compare .btn{background:#f5f1e8;color:var(--ink);flex:none;box-shadow:none}
+  .compare .btn:hover{background:#fff}
+
+  /* ---------- faq ---------- */
+  .faq{max-width:860px}
+  .faq details{border-bottom:1px solid var(--line);padding:4px 0}
+  .faq details:first-child{border-top:1px solid var(--line)}
+  .faq summary{
+    list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:17px 2px;font-weight:700;font-size:15.5px;color:var(--ink);
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{
+    content:"+";flex:none;width:26px;height:26px;border-radius:50%;
+    display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--line);
+    color:var(--muted);font-weight:700;font-size:16px;line-height:1;
+  }
+  .faq details[open] summary::after{content:"−"}
+  .faq details p{margin:0 0 18px;padding-right:36px;color:var(--muted);font-size:14px}
+  .faq details p:last-child{margin-bottom:20px}
+  .faq code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:30px 0 40px;font-size:12.5px;color:var(--muted)}
+  .footer-inner{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  footer p{margin:0}
+  footer .small{margin-top:6px;font-size:12px;opacity:.9}
+
+  @media (max-width:840px){
+    .site-nav{display:none}
+    .hero{padding:46px 0 40px}
+    .apk-grid,.wechat-grid{grid-template-columns:1fr}
+    .qr-card{max-width:380px;width:100%;margin:0 auto}
+    .steps{grid-template-columns:1fr;gap:14px}
+    .compare{padding:28px 24px}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 16px}
+    .hero{padding-top:38px}
+    .hero-actions .btn{width:100%}
+    .apk-card{padding:22px}
+    .guide{padding:20px}
+    .section,.section-band{padding-bottom:44px}
+    .compare .btn{width:100%}
+    .faq details p{padding-right:0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .btn{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="./" aria-label="奇门干支历首页">
+      <span class="brand-mark" aria-hidden="true">奇</span>
+      <span class="brand-name">奇门干支历<small>奇门遁甲排盘</small></span>
+    </a>
+    <nav class="site-nav" aria-label="页面导航">
+      <a href="#android">安卓 App</a>
+      <a href="#wechat">微信小程序</a>
+      <a href="apk-comparison.html">版本对比</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HERO ================= -->
+  <section class="wrap hero">
+    <div class="kicker"><span class="dot" aria-hidden="true"></span>安卓 App · 微信小程序</div>
+    <h1>选一种方式，<br><span class="accent">开始奇门排盘</span></h1>
+    <p class="lede">
+      安卓手机可以下载 App 安装使用；不想安装，就用微信扫一扫直接打开小程序。
+      <strong>三种方式功能一致</strong>，选你顺手的那个就好。
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#android">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        下载安卓 App
+      </a>
+      <a class="btn btn-green" href="#wechat">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9.4 9.4 0 0 1-2.8-.4L4 21l1.5-4.1A8 8 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z"/></svg>
+        微信扫码使用
+      </a>
+    </div>
+    <p class="hero-meta">安卓 7.0 及以上 · 安装包约 1.7–1.9 MB · 电脑上也可以打开本页</p>
+  </section>
+
+  <!-- ================= ANDROID ================= -->
+  <section class="section" id="android">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow"><span class="num">01</span> ANDROID APP</div>
+        <h2>下载安卓 App</h2>
+        <p class="section-sub">
+          两个版本都能完成奇门排盘，主要区别是技术实现和操作手感。任选一个安装即可，也可以两个都装。
+          <strong>仅支持安卓手机；iPhone 用户请使用微信小程序。</strong>
+        </p>
+      </div>
+
+      <div class="apk-grid">
+        <article class="apk-card native">
+          <div class="apk-top">
+            <span class="tag">推荐 · 原生版</span>
+            <span class="ver">v1.0.1</span>
+          </div>
+          <h3>原生版 App</h3>
+          <p class="apk-desc">Kotlin + Jetpack Compose 原生开发，启动更快，滑动和点击更轻快，适合日常长期使用。</p>
+          <ul class="feature-list">
+            <li>原生安卓界面，操作响应更直接</li>
+            <li>排盘资料内置，可离线使用</li>
+          </ul>
+          <div class="specs">
+            <span>安装包 1.75 MB</span>
+            <span>Android 7.0+</span>
+          </div>
+          <a class="btn btn-download" href="qimen-native-1.0.1.apk" download>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            下载原生版 APK
+          </a>
+          <p class="file-name">qimen-native-1.0.1.apk</p>
+        </article>
+
+        <article class="apk-card classic">
+          <div class="apk-top">
+            <span class="tag">经典版 · WebView</span>
+            <span class="ver">v1.0.0</span>
+          </div>
+          <h3>WebView 版 App</h3>
+          <p class="apk-desc">用 WebView 承载页面，界面和操作习惯与微信小程序版保持一致，适合已经熟悉小程序的用户。</p>
+          <ul class="feature-list">
+            <li>界面与小程序版一致，上手没有陌生感</li>
+            <li>功能完整，安装包同样轻巧</li>
+          </ul>
+          <div class="specs">
+            <span>安装包 1.90 MB</span>
+            <span>Android 7.0+</span>
+          </div>
+          <a class="btn btn-download" href="qimen-webview-1.0.0.apk" download>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            下载 WebView 版 APK
+          </a>
+          <p class="file-name">qimen-webview-1.0.0.apk</p>
+        </article>
+      </div>
+
+      <div class="guide">
+        <div class="guide-head">
+          <span class="badge" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+          </span>
+          <h3>安装只要三步</h3>
+        </div>
+        <ol class="steps">
+          <li><b>下载</b><span>点上面的下载按钮，等浏览器把 APK 下载完成。</span></li>
+          <li><b>允许安装</b><span>打开下载好的 APK。若提示“禁止安装未知应用”，点“设置”允许当前浏览器安装，再返回继续。</span></li>
+          <li><b>完成</b><span>点“安装”，安装完成后点“打开”就能使用。</span></li>
+        </ol>
+        <p class="note">
+          <strong>说明：</strong>APK 没有通过应用商店上架，安装时出现“未知来源”或安全提醒属于正常现象。请确认文件是从本页面下载的；安装完成后，可以把“允许安装未知应用”的权限关掉。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WECHAT ================= -->
+  <section class="section-band" id="wechat">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow"><span class="num">02</span> WECHAT MINI PROGRAM</div>
+        <h2>微信小程序：扫码即用</h2>
+        <p class="section-sub">不想安装 App？打开微信扫一扫，几秒就能进入。手机和电脑都可以访问本页，二维码用手机微信扫描即可。</p>
+      </div>
+
+      <div class="wechat-grid">
+        <div class="qr-card">
+          <a href="weixin-qm-scan-code.png" target="_blank" rel="noopener" title="点击放大二维码">
+            <img src="weixin-qm-scan-code.png" alt="奇门干支历微信小程序二维码" width="300" height="300">
+          </a>
+          <p class="qr-title">微信扫一扫</p>
+          <p class="qr-hint">点击二维码可放大 · 电脑上请用手机扫描</p>
+        </div>
+
+        <div class="wechat-copy">
+          <h3>第一次使用，请先解锁</h3>
+          <p>进入小程序后，部分功能默认是锁定状态。按下面的步骤操作一次即可正常使用：</p>
+          <ol class="mini-steps">
+            <li>用微信扫描左侧二维码，进入<strong>「奇门干支历」</strong>小程序。</li>
+            <li>打开小程序里的<strong>「帮助」</strong>页面。</li>
+            <li>点击页面上显示的 <strong>ID</strong>，再按页面提示一步步完成解锁。</li>
+            <li>完成后返回排盘页面，就可以开始使用了。</li>
+          </ol>
+
+          <div class="unlock">
+            <div class="unlock-title">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+              解锁小提示
+            </div>
+            <p>关键步骤只有两个：<strong>打开「帮助」页面</strong>，然后<strong>点击页面里的 ID</strong>。接下来的操作照着页面提示做就行。</p>
+            <p class="unlock-foot">如果页面提示与这里不一致，请以小程序内的最新说明为准。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COMPARE ================= -->
+  <section class="wrap">
+    <div class="compare">
+      <div>
+        <div class="eyebrow">不知道选哪个？</div>
+        <h2>看看两个安卓版本的区别</h2>
+        <p>同样是奇门排盘，原生版与 WebView 版在技术实现、界面风格和后续维护上各有取舍。一页看完再决定。</p>
+      </div>
+      <a class="btn" href="apk-comparison.html">
+        查看版本对比
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section wrap" id="faq">
+    <div class="section-head">
+      <div class="eyebrow"><span class="num">03</span> FAQ</div>
+      <h2>常见问题</h2>
+      <p class="section-sub">安装或使用前，先看看这几个问题。</p>
+    </div>
+
+    <div class="faq">
+      <details>
+        <summary>我应该下载哪个版本？</summary>
+        <p>想要更流畅的原生界面，选<strong>原生版</strong>；已经习惯微信小程序界面，选 <strong>WebView 版</strong>。两者都能正常排盘，也可以两个都装上对比一下，再留下喜欢的那个。详细区别可以查看<a href="apk-comparison.html">版本对比</a>。</p>
+      </details>
+      <details>
+        <summary>安装时提示“未知来源”或有风险，怎么办？</summary>
+        <p>这是因为 APK 不是从应用商店安装的。按系统提示进入“设置”，允许当前浏览器安装应用，再返回选择“仍要安装”即可。请只安装从本页面下载的文件；安装完成后，建议把该权限关闭。</p>
+      </details>
+      <details>
+        <summary>两个安卓 App 可以同时安装吗？</summary>
+        <p>可以。两个安装包的包名不同，能同时装在一台手机上，各自的记录也互不影响。</p>
+      </details>
+      <details>
+        <summary>iPhone 可以用吗？</summary>
+        <p>安卓 App 只支持安卓手机。iPhone 用户请使用微信扫描<a href="#wechat">上方二维码</a>，在微信里打开小程序。</p>
+      </details>
+      <details>
+        <summary>使用需要联网吗？</summary>
+        <p>安卓 App 的排盘功能可以离线使用；微信小程序需要在微信中打开。第一次进入小程序、完成解锁以及查看帮助时，建议保持网络畅通。</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <p><strong>奇门干支历</strong> · 奇门遁甲排盘工具</p>
+      <p class="small">本页面仅提供软件下载入口与使用说明。奇门遁甲属于传统文化内容，请理性看待。</p>
+    </div>
+    <div>
+      <p>更新于 2026 年 11 月</p>
+      <p class="small">安卓 App · 微信小程序</p>
+    </div>
+  </div>
+</footer>
+
+</body>
 </html>

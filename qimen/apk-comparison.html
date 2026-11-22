@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APK Technology Comparison — 奇门遁甲</title>
+<style>
+  :root{
+    --bg:#f4f1ea;
+    --surface:#fffdf8;
+    --surface-2:#f8f5ee;
+    --ink:#1d232b;
+    --muted:#5f6b76;
+    --line:#ddd6c9;
+    --line-strong:#c8bfae;
+    --wv:#0f6f78;
+    --wv-soft:#e2f3f3;
+    --non:#9a5b12;
+    --non-soft:#fbefdc;
+    --code-bg:#1c2430;
+    --code-ink:#dbe7ee;
+    --shadow:0 1px 2px rgba(29,35,43,.05),0 10px 30px rgba(29,35,43,.07);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 500px at 12% -10%, #e7eee9 0%, transparent 62%),
+      radial-gradient(900px 480px at 100% 0%, #f3e7d6 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  a{color:var(--wv);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ---------- header ---------- */
+  header.top{
+    padding:28px 0 0;
+  }
+  .topline{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding-bottom:18px;border-bottom:1px solid var(--line);
+    font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);letter-spacing:.04em}
+  .brand-mark{
+    width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+    background:var(--ink);color:#fff;font-size:13px;letter-spacing:0;
+  }
+  .meta{white-space:nowrap}
+
+  /* ---------- hero ---------- */
+  .hero{padding:54px 0 30px;max-width:900px}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--wv);background:var(--wv-soft);
+    border:1px solid #c7e4e4;border-radius:999px;padding:6px 12px;margin-bottom:20px;
+  }
+  .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+  h1{
+    margin:0 0 16px;font-size:clamp(34px,5.6vw,62px);line-height:1.04;
+    letter-spacing:-.035em;font-weight:800;
+  }
+  h1 .accent{color:var(--wv)}
+  .lede{margin:0;font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:760px}
+  .lede strong{color:var(--ink)}
+
+  /* ---------- verdict cards ---------- */
+  .cards{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:34px 0 56px;
+  }
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:24px;position:relative;overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--accent,var(--wv));
+  }
+  .card.wv{--accent:var(--wv)}
+  .card.non{--accent:var(--non)}
+  .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+  .file{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;font-size:14px;font-weight:700;word-break:break-all}
+  .tag{
+    flex:none;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 9px;border-radius:999px;
+    background:color-mix(in srgb,var(--accent) 12%,white);color:var(--accent);
+    border:1px solid color-mix(in srgb,var(--accent) 25%,white);
+  }
+  .stack{
+    font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin:0 0 6px;
+  }
+  .stack-sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin:0;padding:16px 0 0;border-top:1px solid var(--line)}
+  .facts div{min-width:0}
+  .facts dt{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 2px}
+  .facts dd{margin:0;font-size:13.5px;font-weight:600;overflow-wrap:anywhere}
+
+  /* ---------- sections ---------- */
+  section{padding:14px 0 52px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    font-size:12px;font-weight:700;color:var(--muted);
+  }
+  h2{margin:0;font-size:clamp(23px,3vw,32px);letter-spacing:-.02em;line-height:1.2}
+  .sec-sub{color:var(--muted);margin:0 0 24px;max-width:800px;font-size:15px}
+
+  /* ---------- architecture ---------- */
+  .arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .arch{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow);
+  }
+  .arch-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:0 0 16px;color:var(--accent)}
+  .arch.wv{--accent:var(--wv)}
+  .arch.non{--accent:var(--non)}
+  .flow{display:flex;flex-direction:column;gap:8px}
+  .flow-row{display:flex;align-items:stretch;gap:8px}
+  .node{
+    flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;
+  }
+  .node b{display:block;font-size:13px;line-height:1.3}
+  .node span{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.35}
+  .node.hot{border-color:color-mix(in srgb,var(--accent) 38%,var(--line));background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+  .arrow{
+    align-self:center;flex:none;color:var(--line-strong);font-size:15px;line-height:1;
+    width:16px;text-align:center;
+  }
+  .flow-note{font-size:12px;color:var(--muted);margin:12px 0 0;padding-top:12px;border-top:1px dashed var(--line)}
+  .flow-note code{font-size:11.5px}
+
+  /* ---------- table ---------- */
+  .table-shell{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);overflow:auto;
+  }
+  table{border-collapse:collapse;width:100%;min-width:780px;font-size:14px}
+  thead th{
+    position:sticky;top:0;z-index:2;background:var(--surface-2);
+    text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    padding:13px 18px;border-bottom:1px solid var(--line-strong);white-space:nowrap;
+  }
+  thead th.wv-col{color:var(--wv)}
+  thead th.non-col{color:var(--non)}
+  tbody th{
+    text-align:left;font-weight:600;color:var(--ink);padding:13px 18px;
+    border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap;
+  }
+  tbody td{
+    padding:13px 18px;border-bottom:1px solid var(--line);vertical-align:top;color:#39444f;
+  }
+  tbody tr:nth-child(even){background:#fbf9f4}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+  tbody tr.group th{
+    background:#efeae0;color:var(--muted);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:9px 18px;border-bottom:1px solid var(--line);
+  }
+  td code, .mono{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;font-size:12.5px}
+  .pill{
+    display:inline-block;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:6px;white-space:nowrap;
+  }
+  .pill.wv{background:var(--wv-soft);color:var(--wv)}
+  .pill.non{background:var(--non-soft);color:var(--non)}
+
+  /* ---------- evidence ---------- */
+  .evidence{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .ev{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow);
+  }
+  .ev-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+  .ev h3{margin:0;font-size:17px;letter-spacing:-.01em}
+  .ev ul{margin:0;padding:0;list-style:none}
+  .ev li{position:relative;padding-left:18px;margin:0 0 9px;font-size:13.5px;color:#39444f}
+  .ev li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .ev.wv{--accent:var(--wv)}
+  .ev.non{--accent:var(--non)}
+  .ev li strong{color:var(--ink)}
+  pre{
+    margin:14px 0 0;background:var(--code-bg);color:var(--code-ink);border-radius:10px;
+    padding:14px 16px;overflow:auto;font-size:12px;line-height:1.65;
+    font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  }
+  pre .c{color:#8fa6b5}
+  pre .s{color:#a8d5a2}
+  pre .k{color:#f0c674}
+
+  /* ---------- implications ---------- */
+  .imp{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .imp-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow);
+  }
+  .imp-card h3{margin:0 0 4px;font-size:17px;letter-spacing:-.01em}
+  .imp-card .who{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:block}
+  .imp-card.wv{--accent:var(--wv)}
+  .imp-card.non{--accent:var(--non)}
+  .imp-card h4{margin:14px 0 6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .imp-card ul{margin:0;padding-left:18px;font-size:13.5px;color:#39444f}
+  .imp-card li{margin:0 0 6px}
+
+  /* ---------- note / footer ---------- */
+  .note{
+    background:#fff8e8;border:1px solid #eadcba;border-radius:12px;padding:16px 18px;
+    font-size:13px;color:#5c4a24;margin-top:8px;
+  }
+  .note strong{color:#3d3015}
+  footer{
+    margin-top:26px;padding:26px 0 40px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  footer .mono{font-size:11.5px}
+
+  @media (max-width:840px){
+    .cards,.arch-grid,.evidence,.imp{grid-template-columns:1fr}
+    .hero{padding-top:40px}
+    .facts{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 16px}
+    .topline{font-size:10.5px;letter-spacing:.06em}
+    .meta{display:none}
+    .card{padding:19px}
+    .facts{grid-template-columns:1fr}
+    section{padding-bottom:40px}
+    footer{display:block}
+  }
+  @media print{
+    body{background:#fff}
+    .card,.arch,.ev,.imp-card,.table-shell{box-shadow:none}
+    .table-shell{overflow:visible}
+    table{min-width:0}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap topline">
+    <div class="brand"><span class="brand-mark">奇</span> APK Tech Audit</div>
+    <div class="meta">Prepared 22 Nov 2026 · Static APK analysis</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="kicker"><span class="dot"></span> Same app · Two architectures</div>
+    <h1>Same 奇门遁甲 app.<br><span class="accent">Two different tech stacks.</span></h1>
+    <p class="lede">
+      One APK is a <strong>WebView hybrid</strong> running a mini-program-style front end.
+      The other is a <strong>fully native Kotlin + Jetpack Compose</strong> application.
+      Here is what the package contents show, and what it means in practice.
+    </p>
+  </div>
+
+  <div class="cards">
+    <article class="card wv">
+      <div class="card-head">
+        <div class="file">qimen-webview-1.0.0.apk</div>
+        <div class="tag">Hybrid · WebView</div>
+      </div>
+      <p class="stack">Web front end in a native shell</p>
+      <p class="stack-sub">HTML / CSS / JavaScript loaded locally inside Android WebView</p>
+      <dl class="facts">
+        <div><dt>Package</dt><dd>com.qimen.ganzhi</dd></div>
+        <div><dt>Version</dt><dd>1.0.0 · code 17</dd></div>
+        <div><dt>UI runtime</dt><dd>Android Views + WebView</dd></div>
+        <div><dt>Logic lives in</dt><dd>assets/www</dd></div>
+        <div><dt>APK size</dt><dd>1.90 MB</dd></div>
+        <div><dt>Web assets</dt><dd>≈ 1.15 MB</dd></div>
+      </dl>
+    </article>
+
+    <article class="card non">
+      <div class="card-head">
+        <div class="file">qimen-native-1.0.1.apk</div>
+        <div class="tag">Native · Compose</div>
+      </div>
+      <p class="stack">Native Android application</p>
+      <p class="stack-sub">Kotlin + Jetpack Compose, Room, DataStore, Navigation Compose</p>
+      <dl class="facts">
+        <div><dt>Package</dt><dd>com.qimen.app</dd></div>
+        <div><dt>Version</dt><dd>1.0.1 · code 2</dd></div>
+        <div><dt>UI runtime</dt><dd>Compose + Material 3</dd></div>
+        <div><dt>Logic lives in</dt><dd>Kotlin / DEX</dd></div>
+        <div><dt>APK size</dt><dd>1.75 MB</dd></div>
+        <div><dt>Web assets</dt><dd>None</dd></div>
+      </dl>
+    </article>
+  </div>
+
+  <!-- ================= ARCHITECTURE ================= -->
+  <section id="architecture">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Architecture at a glance</h2></div>
+    <p class="sec-sub">Both are built with Gradle and Kotlin, so Kotlin is not the differentiator. The real split is where the UI and application logic run.</p>
+
+    <div class="arch-grid">
+      <div class="arch wv">
+        <p class="arch-title">qimen-webview · request path</p>
+        <div class="flow">
+          <div class="flow-row">
+            <div class="node"><b>Native Android shell</b><span>MainActivity · AppCompat / Material</span></div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="flow-row">
+            <div class="node hot"><b>WebView + WebViewAssetLoader</b><span>loads appassets.androidplatform.net</span></div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="flow-row">
+            <div class="node hot"><b>assets/www</b><span>HTML · CSS · JavaScript · dist/app.js</span></div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="flow-row">
+            <div class="node"><b>AndroidBridge.call()</b><span>JSON messages to Kotlin</span></div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="flow-row">
+            <div class="node"><b>WebAppBridge</b><span>storage · share · image · UI title</span></div>
+          </div>
+        </div>
+        <p class="flow-note">The JS layer is written in WeChat mini-program conventions: <code>App()</code>, <code>Page()</code>, <code>wx.*</code>, <code>rpx</code>, WeUI.</p>
+      </div>
+
+      <div class="arch non">
+        <p class="arch-title">qimen-native · request path</p>
+        <div class="flow">
+          <div class="flow-row">
+            <div class="node"><b>MainActivity</b><span>single native entry point</span></div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="flow-row">
+            <div class="node hot"><b>Jetpack Compose UI</b><span>Material 3 · Navigation Compose</span></div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="flow-row">
+            <div class="node"><b>ViewModels / domain logic</b><span>Kotlin · coroutines</span></div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="flow-row">
+            <div class="node"><b>Room database</b><span>saved records · SQLite</span></div>
+            <div class="arrow">⇄</div>
+            <div class="node"><b>DataStore</b><span>preferences · settings</span></div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="flow-row">
+            <div class="node hot"><b>Bundled reference JSON</b><span>qimen tables · lunar · jieqi · regions</span></div>
+          </div>
+        </div>
+        <p class="flow-note">No WebView, no HTML/JS. Reference datasets are parsed with <code>kotlinx.serialization</code> inside the native app.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TABLE ================= -->
+  <section id="comparison">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Feature-by-feature comparison</h2></div>
+    <p class="sec-sub">Values below were read directly from the Android manifests, DEX files, bundled assets, and library version metadata.</p>
+
+    <div class="table-shell">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Aspect</th>
+            <th scope="col" class="wv-col">qimen-webview-1.0.0</th>
+            <th scope="col" class="non-col">qimen-native-1.0.1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group"><th colspan="3">Identity &amp; packaging</th></tr>
+          <tr><th scope="row">Package</th><td><code>com.qimen.ganzhi</code></td><td><code>com.qimen.app</code></td></tr>
+          <tr><th scope="row">App label</th><td>奇门遁甲</td><td>奇门遁甲</td></tr>
+          <tr><th scope="row">Version</th><td>1.0.0 · versionCode 17</td><td>1.0.1 · versionCode 2</td></tr>
+          <tr><th scope="row">APK size</th><td>1,895,885 bytes</td><td>1,749,034 bytes</td></tr>
+          <tr><th scope="row">Min SDK</th><td>24</td><td>24</td></tr>
+          <tr><th scope="row">Compile / target SDK</th><td>35 / 35</td><td>36 / 36</td></tr>
+
+          <tr class="group"><th colspan="3">UI &amp; application layer</th></tr>
+          <tr><th scope="row">UI technology</th><td><span class="pill wv">WebView</span> DOM-rendered HTML/CSS</td><td><span class="pill non">Compose</span> Jetpack Compose + Material 3</td></tr>
+          <tr><th scope="row">Native view stack</th><td>AppCompat 1.7.0, Material Views 1.12.0</td><td>Compose 1.8.3, Material3 1.3.2</td></tr>
+          <tr><th scope="row">App logic</th><td>JavaScript in <code>assets/www</code></td><td>Kotlin in DEX</td></tr>
+          <tr><th scope="row">Web engine</th><td>Android WebView + AndroidX WebKit 1.12.1</td><td>None</td></tr>
+          <tr><th scope="row">Native ↔ web bridge</th><td><code>WebAppBridge</code> via <code>AndroidBridge.call()</code></td><td>Not applicable</td></tr>
+          <tr><th scope="row">Navigation</th><td>Custom JS router (<code>runtime/router.js</code>)</td><td>Navigation Compose 2.9.0</td></tr>
+
+          <tr class="group"><th colspan="3">Data &amp; storage</th></tr>
+          <tr><th scope="row">Local records</th><td>Web storage via bridge <code>storage.save/load</code></td><td>Room 2.7.1 · <code>saved_records</code> table</td></tr>
+          <tr><th scope="row">Settings</th><td>JSON document in web/bridge storage</td><td>DataStore Preferences 1.1.7</td></tr>
+          <tr><th scope="row">Serialization</th><td>Manual JSON in JavaScript</td><td><code>kotlinx.serialization</code></td></tr>
+          <tr><th scope="row">Bundled data</th><td>No reference dataset bundle</td><td><code>assets/reference/*.json</code> — qimen tables, lunar, jieqi, geju81, regions</td></tr>
+
+          <tr class="group"><th colspan="3">Code footprint &amp; toolchain</th></tr>
+          <tr><th scope="row">DEX files</th><td>1 file · 1.26 MB</td><td>2 files · 2.63 MB + 0.27 MB</td></tr>
+          <tr><th scope="row">Web assets</th><td>26 JS, 5 CSS, 1 HTML · ≈ 1.15 MB</td><td>None</td></tr>
+          <tr><th scope="row">Native <code>.so</code> libs</th><td>None</td><td>AndroidX datastore counter, graphics-path</td></tr>
+          <tr><th scope="row">Gradle / AGP</th><td>Gradle 8.9 · AGP 8.7.3</td><td>Gradle 8.14.3 · AGP 8.10.1</td></tr>
+          <tr><th scope="row">Kotlin</th><td>2.0.21</td><td>2.2.0</td></tr>
+          <tr><th scope="row">Coroutines</th><td>1.6.4</td><td>1.7.3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= EVIDENCE ================= -->
+  <section id="evidence">
+    <div class="sec-head"><span class="sec-num">03</span><h2>What is actually inside each APK</h2></div>
+    <p class="sec-sub">The difference is visible without running the apps: one package is mostly web assets, the other is mostly compiled native code.</p>
+
+    <div class="evidence">
+      <article class="ev wv">
+        <div class="ev-head">
+          <h3>qimen-webview — hybrid evidence</h3>
+          <span class="pill wv">WebView</span>
+        </div>
+        <ul>
+          <li><strong>Entire front end is in <code>assets/www/</code>:</strong> index.html, CSS, page modules, and a 531 KB prebuilt <code>dist/app.js</code>.</li>
+          <li><strong>Mini-program compatibility layer:</strong> <code>runtime/runtime.js</code> implements <code>App</code>, <code>Page</code>, <code>getApp</code>, and <code>setData</code>; <code>runtime/wx-shim.js</code> maps <code>wx.*</code> calls to browser APIs or the Kotlin bridge.</li>
+          <li><strong>Local, offline loading:</strong> the manifest and code point to <code>https://appassets.androidplatform.net/assets/www/index.html</code>, served by AndroidX <code>WebViewAssetLoader</code>.</li>
+          <li><strong>Custom bridge, not a standard framework:</strong> <code>com.qimen.ganzhi.bridge.WebAppBridge</code> exposes <code>storage.save</code>, <code>storage.load</code>, <code>share.text</code>, <code>image.save</code>, <code>ui.setTitle</code>, and similar methods.</li>
+          <li><strong>No Compose, Room, or DataStore classes</strong> were found in the DEX. There is exactly one declared activity.</li>
+        </ul>
+        <pre><span class="c">// assets/www/runtime/wx-shim.js</span>
+<span class="k">return</span> JSON.parse(global.AndroidBridge.call(JSON.stringify({
+  id: id,
+  method: method,
+  params: params || {}
+})));</pre>
+      </article>
+
+      <article class="ev non">
+        <div class="ev-head">
+          <h3>qimen-native — native evidence</h3>
+          <span class="pill non">Compose</span>
+        </div>
+        <ul>
+          <li><strong>No <code>assets/www</code>, no HTML/JS, and zero <code>WebView</code> references.</strong> The UI is rendered by Compose.</li>
+          <li><strong>Native application class:</strong> <code>com.qimen.app.QimenApplication</code>, with <code>com.qimen.app.MainActivity</code> as the only activity.</li>
+          <li><strong>Native persistence:</strong> <code>com.qimen.app.data.db.QimenDatabase</code> and <code>SavedRecordEntity</code> map to a Room table named <code>saved_records</code>; settings use DataStore’s <code>preferences_pb</code>.</li>
+          <li><strong>Reference data is bundled, not scraped from web code:</strong> <code>assets/reference/</code> contains the Qimen tables, lunar data, solar terms, 81 geju, and region data, each with a SHA-256 manifest.</li>
+          <li><strong>Modern native libraries:</strong> Compose, Material3, Navigation Compose, Room, DataStore, kotlinx.serialization, and coroutines.</li>
+        </ul>
+        <pre><span class="c">// AndroidManifest.xml (native app)</span>
+&lt;application
+  android:name=<span class="s">"com.qimen.app.QimenApplication"</span>
+  ... /&gt;
+&lt;activity
+  android:name=<span class="s">"com.qimen.app.MainActivity"</span>
+  ... /&gt;</pre>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= IMPLICATIONS ================= -->
+  <section id="implications">
+    <div class="sec-head"><span class="sec-num">04</span><h2>What this means in practice</h2></div>
+    <p class="sec-sub">Neither approach is inherently “better”; they optimize for different things.</p>
+
+    <div class="imp">
+      <article class="imp-card wv">
+        <span class="who">qimen-webview · Hybrid</span>
+        <h3>Portable, web-first trade-offs</h3>
+        <h4>Strengths</h4>
+        <ul>
+          <li>Reuses one HTML/CSS/JS codebase across platforms and is easy to update without rebuilding native screens.</li>
+          <li>The whole front end ships offline inside the APK; no remote server is required.</li>
+          <li>Fast iteration for UI and content changes.</li>
+        </ul>
+        <h4>Watch-outs</h4>
+        <ul>
+          <li>WebView startup and rendering overhead compared with native views.</li>
+          <li>Every native capability needs a JSON bridge method and error handling.</li>
+          <li>DOM-based UI may feel less native and needs extra accessibility work.</li>
+        </ul>
+      </article>
+
+      <article class="imp-card non">
+        <span class="who">qimen-native · Native</span>
+        <h3>Native performance, native cost</h3>
+        <h4>Strengths</h4>
+        <ul>
+          <li>Compose rendering, native lifecycle, and direct access to Android APIs.</li>
+          <li>Room and DataStore give structured, transactional local persistence.</li>
+          <li>Better fit for accessibility, large data views, and platform-consistent behavior.</li>
+        </ul>
+        <h4>Watch-outs</h4>
+        <ul>
+          <li>Requires a full native rewrite of UI and logic; no web code reuse.</li>
+          <li>More code to maintain per platform and a steeper Android-specific learning curve.</li>
+          <li>Larger DEX footprint, though the shipped APK is still compact.</li>
+        </ul>
+      </article>
+    </div>
+
+    <p class="note">
+      <strong>Side-by-side installation:</strong> because the package IDs differ
+      (<code>com.qimen.ganzhi</code> vs <code>com.qimen.app</code>), both APKs can be installed on the same device at the same time.
+    </p>
+  </section>
+
+  <footer>
+    <div>Static analysis of <span class="mono">qimen-webview-1.0.0.apk</span> and <span class="mono">qimen-native-1.0.1.apk</span>.</div>
+    <div class="mono">Manifest · DEX strings · assets · META-INF library versions</div>
+  </footer>
+
+</main>
+</body>
+</html>
